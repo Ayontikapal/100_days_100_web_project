@@ -1,4 +1,4 @@
-# 📖 Scroll Game: Dark Run Documentation
+# Scroll Game: Dark Run
 
 ## Overview
 
@@ -26,13 +26,7 @@ Scroll Game: Dark Run is a side-scrolling survival game where players navigate t
 * HTML5
 * CSS3
 * JavaScript
-* jQuery
-* Bootstrap 5
 
-## Future Enhancements
-
-* Multiple difficulty levels
-* Sound effects and background music
-* Scoreboard and achievements
-* Additional obstacle types
+## Screenshots
+![Scroll game](<Scroll-game.png>)
 
