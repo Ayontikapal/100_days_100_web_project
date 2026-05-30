@@ -8,6 +8,8 @@ let lives = 3;
 let strictMode = false;
 let flashSpeed = 600; // speed scales
 let clickable = true;
+let paused = false;
+let sequenceInterval = null; // store Simon sequence interval
 
 const h2 = document.querySelector("h2");
 const highScoreText = document.getElementById("highscore");
@@ -16,6 +18,7 @@ const themeToggle = document.getElementById("theme-toggle");
 const startBtn = document.getElementById("start-btn");
 const board = document.getElementById("board");
 const allBtns = document.querySelectorAll(".btn");
+const pauseBtn = document.getElementById("pause-btn");
 
 let highScore = localStorage.getItem("highScore") || 0;
 highScoreText.innerText = `🏆 High Score: ${highScore}`;
@@ -65,18 +68,53 @@ function levelUp() {
 
 function playSequence() {
   let i = 0;
-  const interval = setInterval(() => {
+
+  sequenceInterval = setInterval(() => {
+    if (paused) return;
+
     const color = gameSeq[i];
     const btn = document.getElementById(color);
+
     gameFlash(btn);
+
     i++;
+
     if (i >= gameSeq.length) {
-      clearInterval(interval);
+      clearInterval(sequenceInterval);
+      sequenceInterval = null;
+
       clickable = true;
       h2.innerText = "Your turn! 👆";
-
     }
   }, flashSpeed + 100);
+}
+
+function togglePause() {
+  if (!started) return;
+
+  paused = !paused;
+
+  if (paused) {
+    clickable = false;
+
+    // Stop sequence playback if it's currently running
+    if (sequenceInterval) {
+      clearInterval(sequenceInterval);
+    }
+
+    h2.innerText = "⏸ Game Paused";
+    pauseBtn.innerText = "▶ Resume";
+  } else {
+    h2.innerText = "▶ Resumed";
+
+    // Replay the current sequence
+    clickable = false;
+    setTimeout(() => {
+      playSequence();
+    }, 500);
+
+    pauseBtn.innerText = "⏸ Pause";
+  }
 }
 
 function checkAns(idx) {
@@ -123,9 +161,11 @@ function updateHighScore() {
 }
 
 function btnPress() {
-  if (!started || !clickable) return;
+  if (!started || !clickable || paused) return;
+
   const btn = this;
   userFlash(btn);
+
   if (navigator.vibrate) navigator.vibrate(50);
 
   let userColor = btn.getAttribute("id");
@@ -136,10 +176,18 @@ function btnPress() {
 
 function resetGame() {
   started = false;
+  paused = false;
+
+  if (sequenceInterval) {
+    clearInterval(sequenceInterval);
+  }
+
   gameSeq = [];
   userSeq = [];
   level = 0;
   clickable = true;
+
+  pauseBtn.innerText = "⏸ Pause";
 }
 
 // ---------------- Event Listeners ----------------
@@ -157,3 +205,4 @@ themeToggle.addEventListener("change", () => {
 });
 
 allBtns.forEach((btn) => btn.addEventListener("click", btnPress));
+pauseBtn.addEventListener("click", togglePause);
