@@ -148,6 +148,16 @@ const pauseBtn = document.getElementById("pauseTimer");
 
 startBtn.addEventListener("click", startTimer);
 resetBtn.addEventListener("click", resetTimer);
+let isPaused = false;
+
 pauseBtn.addEventListener("click", () => {
-    clearInterval(timer);
+    if (!isPaused) {
+        clearInterval(timer);
+        pauseBtn.textContent = "Resume";
+        isPaused = true;
+    } else {
+        startTimer();
+        pauseBtn.textContent = "Pause";
+        isPaused = false;
+    }
 });
