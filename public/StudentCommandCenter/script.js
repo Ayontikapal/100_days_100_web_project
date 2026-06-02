@@ -144,6 +144,10 @@ updateTimerDisplay();
 // BUTTONS
 const startBtn = document.getElementById("startTimer");
 const resetBtn = document.getElementById("resetTimer");
+const pauseBtn = document.getElementById("pauseTimer");
 
 startBtn.addEventListener("click", startTimer);
 resetBtn.addEventListener("click", resetTimer);
+pauseBtn.addEventListener("click", () => {
+    clearInterval(timer);
+});
