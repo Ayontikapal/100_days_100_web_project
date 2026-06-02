@@ -195,10 +195,6 @@ function initResumeStudio() {
     // =========================
     // INPUT LISTENERS
     // =========================
-    inputs.forEach(id => {
-        const input = document.getElementById(id);
-
-        if (!input) return;
 
     function debounce(fn, delay = 300) {
     let timeout;
@@ -211,6 +207,8 @@ function initResumeStudio() {
     inputs.forEach(id => {
         const inputEl = document.getElementById(id);
         const counterEl = document.getElementById(`${id}Count`);
+
+    if (!inputEl) return;
         
         if (inputEl) {
             // Listen on input to run preview update & ATS scores in real-time
@@ -300,6 +298,7 @@ function initResumeStudio() {
     // ==========================================
     function updatePreview() {
         const values = {};
+        const v=values;
 
         inputs.forEach(id => {
             values[id] =
@@ -359,11 +358,11 @@ function initResumeStudio() {
                         </div>
                     ` : ""}
                     
-                    ${skillsArr.length > 0 ? `
+                    ${skillsArray.length > 0 ? `
                         <div class="modern-section" id="preview-section-skills">
                             <h3>Key Skills</h3>
                             <ul class="modern-skills-list">
-                                ${skillsArr.map(s => `<li>${s}</li>`).join("")}
+                                ${skillsArray.map(s => `<li>${s}</li>`).join("")}
                             </ul>
                         </div>
                     ` : ""}
@@ -384,7 +383,7 @@ function initResumeStudio() {
                 <section>
                     <h3>Summary</h3>
                     <div class="classic-section-content"><p>${escapeHTML(v.summary)}</p></div>
-                </div>
+                </section>
             ` : ""}
             
             ${v.experience ? `
@@ -419,7 +418,7 @@ function initResumeStudio() {
         `;
     }
 
-    function renderMinimalTemplate(v) {
+    function renderMinimalTemplate(v,skillsArray) {
         resumePreview.innerHTML = `
             <div class="minimal-header" id="preview-section-personal">
                 <h1>${v.name || "Your Name"}</h1>
@@ -445,29 +444,29 @@ function initResumeStudio() {
             ${v.experience ? `
                 <div class="minimal-section" id="preview-section-experience">
                     <h3>Experience</h3>
-                    ${parseBulletPoints(values.experience)}
-                </section>
+                    ${parseBulletPoints(v.experience)}
+                </div>
             `
                     : ""
             }
 
             ${
-                values.projects
+                v.projects
                     ? `
                 <section>
                     <h3>Projects</h3>
-                    ${parseBulletPoints(values.projects)}
+                    ${parseBulletPoints(v.projects)}
                 </section>
             `
                     : ""
             }
 
             ${
-                values.education
+                v.education
                     ? `
                 <section>
                     <h3>Education</h3>
-                    ${parseBulletPoints(values.education)}
+                    ${parseBulletPoints(v.education)}
                 </section>
             `
                     : ""
@@ -790,36 +789,6 @@ function initResumeStudio() {
         }
     });
 
-            const pdf = new jsPDF(
-                "p",
-                "mm",
-                "a4"
-            );
-
-            const width =
-                pdf.internal.pageSize.getWidth();
-
-            const height =
-                (canvas.height * width) /
-                canvas.width;
-
-            pdf.addImage(
-                imgData,
-                "PNG",
-                0,
-                0,
-                width,
-                height
-            );
-
-            pdf.save("resume.pdf");
-        } catch (error) {
-            console.error(error);
-            alert("Failed to generate PDF");
-        }
-    });
-}
-
 let resumeStudioInitialized = false;
 
 function safeInit() {
@@ -832,4 +801,4 @@ if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", safeInit);
 } else {
     safeInit();
-}
+}}
