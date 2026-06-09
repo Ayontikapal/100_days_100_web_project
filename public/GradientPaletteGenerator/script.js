@@ -31,6 +31,7 @@ const dom = {
   toastText: document.getElementById("toast-text"),
   toggleBtns: document.querySelectorAll(".toggle-btn"),
   colorPicker: null,
+  copyClipboard: document.getElementById("copy-clipboard"),
 };
 
 // ===== Utility Functions =====
@@ -264,6 +265,9 @@ const copyCSS = async () => {
     }
   }
 };
+
+//copy clipboard button listener
+dom.copyClipboard.addEventListener("click", copyCSS);
 
 // ===== LocalStorage: Save / Load / Delete =====
 
