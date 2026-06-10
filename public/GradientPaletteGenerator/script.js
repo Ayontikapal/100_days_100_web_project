@@ -338,9 +338,15 @@ const saveGradient = () => {
  */
 const deleteSaved = (id) => {
   const saved = loadSaved().filter((g) => g.id !== id);
-  persistSaved(saved);
-  renderSavedGrid();
-  showToast("Gradient deleted");
+  showConfirmModal({
+    title: 'Clear this gradient?',
+    message: `This will permanently delete this saved gradient.`,
+    onConfirm: () => {
+      persistSaved(saved);
+      renderSavedGrid();
+      showToast('Gradient deleted');
+    }
+  });
 };
 
 /** Clear all saved gradients */
