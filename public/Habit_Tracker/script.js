@@ -46,6 +46,7 @@ function renderHabits() {
       const div = document.createElement("div");
 
       div.className = "habit-card";
+      div.style.borderLeft = `6px solid ${habit.color}`;
 
       div.innerHTML = `
 <div class="habit-top">
