@@ -252,6 +252,9 @@ function toggleDrawer(drawerName, event) {
     document.querySelector(".sidebar-logo").style.display = "none";
     document.querySelector(".sidebar-logo-icon").style.display = "inline-block";
     document.querySelector(".app-main-content").style.marginLeft = "72px";
+    document.querySelectorAll(".nav-item span").forEach(span => {
+    span.style.display = "none";
+});
     
     // Load drawer content
     if (drawerName === "search") {
@@ -276,6 +279,9 @@ function closeAllDrawers() {
         document.querySelector(".sidebar-logo").style.display = "block";
         document.querySelector(".sidebar-logo-icon").style.display = "none";
         document.querySelector(".app-main-content").style.marginLeft = "244px";
+        document.querySelectorAll(".nav-item span").forEach(span => {
+    span.style.display = "flex";
+});
     }
     
     // Remove active link from drawer indicators
